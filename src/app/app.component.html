@@ -1,25 +1,73 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Breaking Bad</a>
+<nav class="navbar navbar-expand-lg custom-nav">
+    <a class="navbar-brand" href="http://localhost:4200/">
+        <img src="../assets/images/brbalo.png" width="90" height="54" alt="Breaking Bad"> 
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
-    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
-        <button (click) = "getData()" class="btn btn-info"> Get Data </button>
+    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent" *ngIf="!isSearchChar">
+        <button (click) = "getAllChars()" class="btn app-btn mr-3"> Get All Characters </button>
+        <button (click) = "searchChar()" class="btn app-btn"> Search Character </button>
     </div>
-  </nav>
-<br>
-<div class="row row-cols-1 row-cols-md-4">
-<div class="flip-card" *ngFor="let singleData of charactersData">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <img src="{{singleData.img}}" alt="{{singleData.name}}" style="width:300px;height:300px;">
-      </div>
-      <div class="flip-card-back">
-        <h1>{{singleData.name}}</h1> 
-        <p>{{singleData.nickname}}</p> 
-        <p>{{singleData.birthday}}</p>
-      </div>
+    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent" *ngIf="isSearchChar">
+        <input class="form-control mr-sm-4" type="search" placeholder="Enter character name" aria-label="Search" #charName>
+        <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="button" (click) = "getChar(charName.value)">Search</button>
+        <button (click) = "searchChar()" class="btn app-btn"> Return </button>
     </div>
+</nav>
+<div class= "row row-cols-12 d-flex justify-content-center mt-3" *ngIf="fershPage">
+    <img src="../assets/images/brbalo.png" alt="Breaking Bad Logo">
 </div>
+<div *ngIf="!isLoader">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <circle cx="84" cy="50" r="10" fill="#3bd942">
+            <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"></animate>
+            <animate attributeName="fill" repeatCount="indefinite" dur="1s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#3bd942;#0c5709;#188c14;#45be27;#3bd942" begin="0s"></animate>
+        </circle><circle cx="16" cy="50" r="10" fill="#3bd942">
+          <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+          <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"></animate>
+        </circle><circle cx="50" cy="50" r="10" fill="#45be27">
+          <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+          <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+        </circle><circle cx="84" cy="50" r="10" fill="#188c14">
+          <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+          <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.5s"></animate>
+        </circle><circle cx="16" cy="50" r="10" fill="#0c5709">
+          <animate attributeName="r" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+          <animate attributeName="cx" repeatCount="indefinite" dur="1s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.75s"></animate>
+        </circle>
+        </svg>
+</div>
+<div class="row row-cols-1 row-cols-md-4 mt-3" *ngIf="!fershPage">
+    <div class="flip-card mb-3" *ngFor="let singleData of charactersData">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <img src="{{singleData.img}}" alt="{{singleData.name}}" style="width:300px;height:300px; border-radius: 10px;">
+            </div>
+            <div class="flip-card-back">
+                <div class="card-header">
+                    <h2>{{singleData.name}}</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Occupation</th>
+                                <td>{{singleData.occupation}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Life Status</th>
+                                <td>{{singleData.status}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Portrayed</th>
+                                <td>{{singleData.portrayed}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                  </div>
+            </div>
+        </div>
+    </div>
 </div>
